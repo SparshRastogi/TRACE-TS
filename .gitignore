@@ -1,0 +1,27 @@
+# Data and outputs (not tracked — user-provided or generated)
+data/
+checkpoints/
+outputs/
+results/
+logs/
+wandb/
+
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.ipynb_checkpoints/
+*.egg-info/
+dist/
+build/
+.eggs/
+
+# Env
+.env
+*.env
+venv/
+.venv/
+
+# OS
+.DS_Store
