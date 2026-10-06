@@ -151,7 +151,6 @@ Sample ID: {sample_id}
 Predicted Activity: {activity}
 Confidence: {confidence:.4f}
 Attribution threshold (global p90): {threshold:.4f}
-Each region lists the z-scored sensor readings across that region with two timesteps of context on each side. Base the pattern description on these readings; paraphrase them, do not quote them.
 
 ### High-Importance Regions (sorted by importance):
 {chr(10).join(evidence_lines)}
