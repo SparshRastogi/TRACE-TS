@@ -78,6 +78,24 @@ def importance_to_confidence(rank: int) -> str:
         return "low"
 
 
+def region_values(attention_result: Dict, reg: Dict, pad: int = 2, max_points: int = 12) -> str:
+    raw = attention_result.get('raw_sensor_data') or {}
+    series = raw.get(reg['sensor'])
+    if series is None:
+        key = re.sub(r'[^a-z0-9]', '', reg['sensor'].lower())
+        series = next((v for k, v in raw.items() if re.sub(r'[^a-z0-9]', '', k.lower()) == key), None)
+    if not series:
+        return ""
+    s = max(0, reg['start_t'] - pad)
+    e = min(len(series) - 1, reg['end_t'] + pad)
+    seg = series[s:e + 1]
+    sub = len(seg) > max_points
+    if sub:
+        seg = [seg[round(j * (len(seg) - 1) / (max_points - 1))] for j in range(max_points)]
+    vals = ", ".join(f"{v:.2f}" for v in seg)
+    return f"\n   - Signal t={s}–{e}{' (subsampled)' if sub else ''}: [{vals}]"
+
+
 def format_attention_data(attention_result: Dict) -> str:
     """Build the structured-template prompt for the 122B teacher model.
 
@@ -111,6 +129,7 @@ def format_attention_data(attention_result: Dict) -> str:
             f"   - Peak Timestep:   {reg['peak_timestep']}\n"
             f"   - Temporal Region: {temporal}\n"
             f"   - Confidence Tier: {conf}"
+            + region_values(attention_result, reg)
         )
 
     if not evidence_lines:
@@ -132,6 +151,7 @@ Sample ID: {sample_id}
 Predicted Activity: {activity}
 Confidence: {confidence:.4f}
 Attribution threshold (global p90): {threshold:.4f}
+Each region lists the z-scored sensor readings across that region with two timesteps of context on each side. Base the pattern description on these readings; paraphrase them, do not quote them.
 
 ### High-Importance Regions (sorted by importance):
 {chr(10).join(evidence_lines)}

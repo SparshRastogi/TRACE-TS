@@ -1,0 +1,15 @@
+torch>=2.5.0
+numpy
+scipy
+scikit-learn
+pandas
+matplotlib
+seaborn
+captum
+mantis-tsfm>=1.1.0
+tensorboard
+h5py
+requests
+tqdm
+psutil
+patool

@@ -1,5 +1,5 @@
 # Data and outputs (not tracked — user-provided or generated)
-data/
+/data/
 checkpoints/
 outputs/
 results/
@@ -25,3 +25,14 @@ venv/
 
 # OS
 .DS_Store
+/dataset/
+/models/
+/weights/
+/xai_output*/
+/mantis_embeddings*/
+/moment_embeddings*/
+/results_*/
+/chronos_cache/
+/UniMTS/
+/UniMTS_data/
+/external_benchmarks/
